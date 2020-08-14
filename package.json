@@ -1,4 +1,10 @@
 {
+  "name": "housesearch",
+  "version": "1.0.0",
+  "description": "a note app for the home buying process",
+  "engines": {
+    "node": ">=0.12"
+  },
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
