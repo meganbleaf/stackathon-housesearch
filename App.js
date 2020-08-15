@@ -3,7 +3,7 @@ import React from 'react';
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-
+import colors from './app/config/colors'
 
 import WelcomeScreen from './app/screens/WelcomeScreen';
 import LogInForm from './app/screens/LogInForm'
@@ -19,6 +19,7 @@ export default function App() {
         <Stack.Screen
           name='Welcome'
           component={WelcomeScreen}
+          backgroundColor={colors.teal}
         />
         <Stack.Screen
           name='LogInForm'

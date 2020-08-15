@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>930449771789-7mad7ee00g99pjr1lmhs12840men6snh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.930449771789-7mad7ee00g99pjr1lmhs12840men6snh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyChjMGO2ClFtIjpvKGRPSUar_gEK2Qa8T8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>930449771789</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.housesearch</string>
+	<key>PROJECT_ID</key>
+	<string>housesearch-4afc8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>housesearch-4afc8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:930449771789:ios:fd6fb57e5b861877887444</string>
+	<key>DATABASE_URL</key>
+	<string>https://housesearch-4afc8.firebaseio.com</string>
+</dict>
+</plist>
