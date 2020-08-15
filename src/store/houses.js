@@ -1,25 +1,20 @@
-import firebase, { firebaseRef } from '../firebase/config'
+import { firebase, firebaseRef } from '../firebase/config'
 
 const initialState = {
-    houses: []
+    houses: [],
+    loading: true
 }
 
 const GET_ALL_HOUSES = 'GET_ALL_HOUSES'
 
 const DELETE_HOUSE = 'DELETE_HOUSE'
 
-const getAllHouses = houses => {
+const allHouses = houses => {
     return {
         type: GET_ALL_HOUSES,
         houses
     }
 }
-// const addHouse = house => {
-//     return {
-//         type: ADD_HOUSE,
-//         house
-//     }
-// }
 
 const deleteHouse = id => {
     return {
@@ -29,11 +24,12 @@ const deleteHouse = id => {
 }
 
 
-//////thunk?
+//////thunks
 
 
-export const fetchHouses = (userId) => {
+export const fetchHouses = () => {
     return async dispatch => {
+        console.log('got inside the thunk')
         let housesArr = []
         const houses = await firebase
             .firestore()
@@ -44,7 +40,7 @@ export const fetchHouses = (userId) => {
         houses.docs.forEach(doc => {
             housesArr.push(doc.data())
         })
-        dispatch(getAllHouses(housesArr))
+        dispatch(allHouses(housesArr))
     }
 }
 
@@ -52,7 +48,7 @@ export const fetchHouses = (userId) => {
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_ALL_HOUSES:
-            return action.houses
+            return { ...state, houses: action.houses, loading: false }
         case DELETE_HOUSE:
             return state.filter(house => house.id !== action.id)
         default:
