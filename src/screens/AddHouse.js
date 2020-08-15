@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyleSheet, Button, TextInput, View, Text, Image } from 'react-native'
 import { Formik } from 'formik'
-import colors from '../config/colors'
-import styles from '../config/styles'
+import colors from '../../app/config/colors'
+import styles from '../../app/config/styles'
 
 export default function AddHouse() {
     return (
