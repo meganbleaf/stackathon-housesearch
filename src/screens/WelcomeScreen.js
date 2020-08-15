@@ -2,7 +2,7 @@ import React from 'react'
 import { ImageBackground, StyleSheet, View, Image, Text, Button } from 'react-native';
 
 
-import colors from '../config/colors'
+import colors from '../../app/config/colors'
 
 const image = { uri: "https://cdn-0.preppywallpapers.com/wp-content/uploads/2019/01/Europe-iPhone-Wallpaper-11.jpg" }
 
@@ -13,7 +13,7 @@ const WelcomeScreen = ({ navigation }) => {
             source={image}
         >
             <View style={styles.logoContainer}>
-                <Image style={styles.logo} source={require('../assets/logo.png')} />
+                <Image style={styles.logo} source={require('../../app/assets/logo.png')} />
                 <Text>Notes for House Hunters</Text>
             </View>
             <Button title='login' style={styles.loginButton}
