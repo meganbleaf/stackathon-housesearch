@@ -1,17 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import colors from './app/config/colors'
-
-import WelcomeScreen from './app/screens/WelcomeScreen';
-import LogInForm from './app/screens/LogInForm'
-import SignUpForm from './app/screens/SignUpForm'
+import { WelcomeScreen, LogInForm, SignUpForm, SingleHouse } from './src/screens'
+import { decode, encode } from 'base-64'
+if (!global.btoa) { global.btoa = encode }
+if (!global.atob) { global.atob = decode }
 
 const Stack = createStackNavigator()
 
 export default function App() {
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
 
   return (
     <NavigationContainer>
@@ -31,16 +33,17 @@ export default function App() {
           component={SignUpForm}
           options={{ title: 'Sign Up Form' }}
         />
+        {/* <Stack.Screen
+          name='SingleHouse'
+          component={SingleHouse}
+          options={{ title: 'SingleHouse' }}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+
+
+
+
