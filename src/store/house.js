@@ -1,9 +1,12 @@
+import { firebase } from '../firebase/config'
+
 const initialState = {
     house: {}
 }
 
 const GET_SINGLE_HOUSE = 'GET_SINGLE_HOUSE'
 const UPDATE_HOUSE = 'UPDATE_HOUSE'
+const ADD_HOUSE = 'ADD_HOUSE'
 
 const getSingleHouse = house => {
     return {
@@ -19,12 +22,30 @@ const updateHouse = house => {
     }
 }
 
+const addHouse = house => {
+    return {
+        type: ADD_HOUSE,
+        house
+    }
+}
 
 
 
 //////thunk?
 
-
+export const addNewHouse = (newHouse) => {
+    return async dispatch => {
+        console.log(newHouse)
+        const house = await firebase
+            .firestore()
+            .collection('users')
+            .doc('a0gDe0l1W7OAufnvFGI5dGjVpMv1')
+            .collection('houses')
+            .doc()
+            .set(newHouse)
+        dispatch(addHouse(house))
+    }
+}
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -32,6 +53,8 @@ export default function (state = initialState, action) {
             return action.house
         case UPDATE_HOUSE:
             return action.house
+        case ADD_HOUSE:
+            return { ...state, house: action.house }
         default:
             return state
     }

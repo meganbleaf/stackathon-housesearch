@@ -1,3 +1,5 @@
+import { getFirebase } from "react-redux-firebase"
+
 const initialState = {
     notes: []
 }
@@ -27,7 +29,14 @@ const deleteNote = id => {
 }
 
 //thunks
-
+export const addNoteThunk = (note) => {
+    return (async (dispatch, getState, getFirebase) => {
+        await getFirebase()
+            .ref('notes')
+            .push('note')
+        dispatch(addNote(note))
+    })
+}
 
 export default function (state = initialState, action) {
     switch (action.type) {

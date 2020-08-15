@@ -1,57 +1,61 @@
-import React from 'react'
+import React, { useState, getState } from 'react'
 import { StyleSheet, Button, TextInput, View, Text, Image } from 'react-native'
 import { Formik } from 'formik'
 import colors from '../../app/config/colors'
 import styles from '../../app/config/styles'
+import { addNewHouse } from '../../src/store/house'
+import { connect } from 'react-redux'
+import { getStateFromPath } from '@react-navigation/native'
 
-export default function AddHouse() {
+export function AddHouse(props) {
+    const [price, setPrice] = useState('')
+    const [status, setStatus] = useState('')
+    const [photos, setPhotos] = useState('')
+    const [address, setAddress] = useState('')
+
+    const onSubmit = () => {
+        const payload = { price, status, photos, address }
+        props.addNewHouse(payload)
+
+    }
+
     return (
         <View>
             <Image
                 style={styleSheet.image}
                 source={{ uri: 'https://images.unsplash.com/photo-1488707872600-5507977fe355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjF9&auto=format&fit=crop&w=2100&q=80' }}></Image>
             <View>
-                <Formik
-                    initialValues={{
-                        price: '',
-                        status: '',
-                        photos: ''
-                    }}
-                    onSubmit={(values) => {
-                        console.log(values)
-                    }}
-                >
-                    {
-                        (props) => (
-                            <View >
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder='house price'
-                                    onChangeText={props.handleChange('price')}
-                                    value={props.values.price}
-                                />
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder='status'
-                                    onChangeText={props.handleChange('status')}
-                                    value={props.values.status}
-                                />
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder='photos'
-                                    onChangeText={props.handleChange('photos')}
-                                    value={props.values.photos}
-                                />
+                <View >
+                    <TextInput
+                        style={styles.input}
+                        placeholder='house address'
+                        onChangeText={(address) => setAddress(address)}
+                        value={address}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder='house price'
+                        onChangeText={(price) => setPrice(price)}
+                        value={price}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder='status'
+                        onChangeText={(status) => setStatus(status)}
+                        value={status}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder='photos'
+                        onChangeText={(photos) => setPhotos(photos)}
+                        value={photos}
+                    />
 
-                                <Button title='Add To My List'
-                                    color={colors.pink}
-                                    onPress={props.handleSubmit}
-                                ></Button>
-                            </View>
-                        )
-                    }
-
-                </Formik>
+                    <Button title='Add To My List'
+                        color={colors.pink}
+                        onPress={() => onSubmit()}
+                    ></Button>
+                </View>
 
             </View>
         </View>
@@ -64,3 +68,12 @@ const styleSheet = StyleSheet.create({
         width: 300
     }
 })
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addNewHouse: (newHouse) => dispatch(addNewHouse(newHouse))
+    }
+
+}
+
+export default connect(null, mapDispatchToProps)(AddHouse)
