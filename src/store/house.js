@@ -49,21 +49,21 @@ export const addNewHouse = (newHouse, userId) => {
     }
 }
 
-export const getSingleHouseThunk = (house) => {
+export const getSingleHouseThunk = (id, userId) => {
+    console.log("inside the thunk")
     return async dispatch => {
-        console.log('got inside the thunk')
-        let singleHouse = {}
         const oneHouse = await firebase
             .firestore()
             .collection('users')
             .doc(userId)
             .collection('houses')
+            .doc(id)
             .get()
-        houses.docs.forEach(doc => {
-            housesArr.push(doc.data())
-        })
-        dispatch(allHouses(housesArr))
+        console.log('what is one house', oneHouse)
+        dispatch(getSingleHouse(oneHouse))
     }
+
+
 }
 
 export default function (state = initialState, action) {

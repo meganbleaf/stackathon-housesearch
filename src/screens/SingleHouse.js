@@ -1,12 +1,21 @@
-import React, { useState, getState } from 'react'
-import { Button, View, Text } from 'react-native'
+import React, { useState, getState, useEffect } from 'react'
+import { Button, View, Text, Image } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
+import { getSingleHouseThunk } from '../store/house'
 
-export default function SingleHouse(props) {
+export function SingleHouse(props) {
     const [notes, setNotes] = useState('')
     const [pros, setPros] = useState('')
     const [cons, setCons] = useState('')
+    const house = props.route.params.house
+    const houseId = props.route.params.house.id
+    const userId = props.route.params.userId
+    console.log("can we just use house as props?", house)
+
+    // useEffect(() => {
+    //     props.getHouse(houseId, userId)
+    // }, [])
 
     const onSubmit = () => {
         if (Button.name === 'pros') {
@@ -21,19 +30,16 @@ export default function SingleHouse(props) {
 
 
 
-    const house = props.route.params.house
+
     return (
         <View style={{ height: 275, paddingLeft: 32 }}>
-            {house.map((house, index) => (
-
-                <View key={index}>
-                    <Image style={{ height: 200, width: 200 }} source={require('../../app/assets/house.png')}></Image>
-                    <Text>
-                        {house.address}
-                    </Text>
-                </View>
-
-            ))}
+            <Image style={{ height: 200, width: 200 }} source={require('../../app/assets/house.png')}></Image>
+            <View>
+                <Text>{house.address}</Text>
+                <Text>{house.price}</Text>
+                <Text>{house.status}</Text>
+                <Text>{house.photos}</Text>
+            </View>
             <View>
                 <View>
                     <TextInput
@@ -41,7 +47,7 @@ export default function SingleHouse(props) {
                         onChangeText={(notes) => setNotes(notes)}
                         value={notes}
                     />
-                    <Button name='notes'></Button>
+                    <Button title='add notes'></Button>
                 </View>
                 <View>
                     <TextInput
@@ -51,16 +57,30 @@ export default function SingleHouse(props) {
                     />
                 </View>
                 <View>
-                    <Button name='pros'></Button>
+                    <Button title='add pros'></Button>
                     <TextInput
                         placeholder='cons'
                         onChangeText={(cons) => setCons(cons)}
                         value={cons}
                     />
-                    <Button name='cons'></Button>
+                    <Button title='add cons'></Button>
                 </View>
             </View>
         </View>
     )
 
 }
+
+const mapStateToProps = state => {
+    return {
+        house: state.house
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getHouse: (houseId, userId) => dispatch(getSingleHouseThunk(houseId, userId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleHouse)
