@@ -35,15 +35,34 @@ const addHouse = house => {
 
 export const addNewHouse = (newHouse, userId) => {
     return async dispatch => {
+        newHouse.id = Math.random() * 1000000000000000000000000
+        const id = newHouse.id.toString()
         console.log(newHouse)
         const house = await firebase
             .firestore()
             .collection('users')
             .doc(userId)
             .collection('houses')
-            .doc()
+            .doc(id)
             .set(newHouse)
         dispatch(addHouse(house))
+    }
+}
+
+export const getSingleHouseThunk = (house) => {
+    return async dispatch => {
+        console.log('got inside the thunk')
+        let singleHouse = {}
+        const oneHouse = await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .get()
+        houses.docs.forEach(doc => {
+            housesArr.push(doc.data())
+        })
+        dispatch(allHouses(housesArr))
     }
 }
 

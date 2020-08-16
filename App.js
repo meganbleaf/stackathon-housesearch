@@ -7,6 +7,7 @@ import colors from './app/config/colors'
 import { WelcomeScreen, LogInForm, SignUpForm } from './src/screens'
 import AllHousesList from './src/screens/AllHousesList'
 import AddHouse from './src/screens/AddHouse'
+import SingleHouse from './src/screens/SingleHouse'
 import { Provider } from 'react-redux'
 import store from './src/store/createStore'
 
@@ -44,6 +45,11 @@ export default function App() {
             name='AddHouse'
             component={AddHouse}
             options={{ title: 'Add House' }}
+          />
+          <Stack.Screen
+            name='SingleHouse'
+            component={SingleHouse}
+            options={{ title: 'Single House' }}
           />
 
         </Stack.Navigator>

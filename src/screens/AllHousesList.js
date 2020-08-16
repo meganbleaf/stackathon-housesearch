@@ -20,7 +20,7 @@ export function AllHousesList(props) {
     } else if (!loading && houses.length === 0) {
         return <Text>No saved houses</Text>
     }
-    console.log(userId)
+
     return (
 
         <View style={theseStyles.container}>
@@ -35,7 +35,7 @@ export function AllHousesList(props) {
             </View>
             <View style={{ height: 275, paddingLeft: 32 }}>
                 {houses.map((house, index) => (
-                    <TouchableOpacity key={index} >
+                    <TouchableOpacity onPress={() => { props.navigation.navigate('SingleHouse', { house }) }} key={index} >
                         <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
                         <Text>
                             {house.address}
