@@ -22,17 +22,6 @@ export function AddHouse(props) {
         props.navigation.navigate('AllHousesList')
     }
 
-    let data = [{
-        value: 'Visited'
-    }, {
-        value: 'To Schedule Visit'
-    }, {
-        value: 'Visit Has Been Scheduled'
-    }]
-
-    const getValue = (value) => {
-        setStatus(value)
-    }
 
 
     return (
@@ -54,28 +43,21 @@ export function AddHouse(props) {
                         onChangeText={(price) => setPrice(price)}
                         value={price}
                     />
-                    {/* <TextInput
-                        style={styles.input}
-                        placeholder='status'
-                        onChangeText={(status) => setStatus(status)}
-                        value={status}
-                    /> */}
                     <View>
                         <Text>Status</Text>
-                        <Picker onValueChange={(value) => setStatus(value)} selectedValue={status}>
-
+                        <Picker onValueChange={(value) => {
+                            if (value === '') {
+                                value = 'Visited'
+                            }
+                            setStatus(value)
+                        }} selectedValue={status}>
+                            <Picker.Item label='Select One' itemStyle={{ backgroundColor: colors.blue }} />
                             <Picker.Item label='Visited' value='Visited' />
                             <Picker.Item label='Scheduled' value='Scheduled' />
                             <Picker.Item label='To Schedule' value='To Schedule' />
                         </Picker>
 
                     </View>
-                    {/* <TextInput
-                        style={styles.input}
-                        placeholder='photos'
-                        onChangeText={(photos) => setPhotos(photos)}
-                        value={photos}
-                    /> */}
                     <ImagePickerButton />
 
                     <Button title='Add To My List'
