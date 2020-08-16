@@ -3,6 +3,7 @@ import { Button, View, Text, Image } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { getSingleHouseThunk } from '../store/house'
+import ImagePickerButton from '../utils/ImagePicker'
 
 export function SingleHouse(props) {
     const [notes, setNotes] = useState('')
@@ -38,7 +39,7 @@ export function SingleHouse(props) {
                 <Text>{house.address}</Text>
                 <Text>{house.price}</Text>
                 <Text>{house.status}</Text>
-                <Text>{house.photos}</Text>
+
             </View>
             <View>
                 <View>
@@ -64,6 +65,9 @@ export function SingleHouse(props) {
                         value={cons}
                     />
                     <Button title='add cons'></Button>
+                </View>
+                <View>
+                    <ImagePickerButton />
                 </View>
             </View>
         </View>

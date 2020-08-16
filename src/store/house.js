@@ -6,7 +6,7 @@ const initialState = {
 
 const GET_SINGLE_HOUSE = 'GET_SINGLE_HOUSE'
 const UPDATE_HOUSE = 'UPDATE_HOUSE'
-const ADD_HOUSE = 'ADD_HOUSE'
+
 
 const getSingleHouse = house => {
     return {
@@ -22,34 +22,15 @@ const updateHouse = house => {
     }
 }
 
-const addHouse = house => {
-    return {
-        type: ADD_HOUSE,
-        house
-    }
-}
+
 
 
 
 //////thunk?
 
-export const addNewHouse = (newHouse, userId) => {
-    return async dispatch => {
-        newHouse.id = Math.random() * 1000000000000000000000000
-        const id = newHouse.id.toString()
-        console.log(newHouse)
-        const house = await firebase
-            .firestore()
-            .collection('users')
-            .doc(userId)
-            .collection('houses')
-            .doc(id)
-            .set(newHouse)
-        dispatch(addHouse(house))
-    }
-}
 
-export const getSingleHouseThunk = (id, userId) => {
+
+export const getSingleHouseThunk = (id, user) => {
     console.log("inside the thunk")
     return async dispatch => {
         const oneHouse = await firebase
@@ -72,8 +53,6 @@ export default function (state = initialState, action) {
             return action.house
         case UPDATE_HOUSE:
             return action.house
-        case ADD_HOUSE:
-            return { ...state, house: action.house }
         default:
             return state
     }

@@ -7,8 +7,10 @@ import { AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { fetchHouses } from '../store/houses'
 import { connect } from 'react-redux'
+import { firebase } from '../firebase/config'
 
 export function AllHousesList(props) {
+    console.log("AM I BEING RENDERED TWICE?")
     const userId = props.route.params.user.id
     useEffect(() => {
         props.getAllHouses(userId)

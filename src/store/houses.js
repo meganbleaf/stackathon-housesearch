@@ -6,7 +6,7 @@ const initialState = {
 }
 
 const GET_ALL_HOUSES = 'GET_ALL_HOUSES'
-
+const ADD_HOUSE = 'ADD_HOUSE'
 const DELETE_HOUSE = 'DELETE_HOUSE'
 
 const allHouses = houses => {
@@ -22,10 +22,38 @@ const deleteHouse = id => {
         id
     }
 }
-
+const addHouse = house => {
+    return {
+        type: ADD_HOUSE,
+        house
+    }
+}
 
 //////thunks
+export const addNewHouse = (newHouse, userId) => {
+    return async dispatch => {
+        newHouse.id = Math.random() * 1000000000000000000000000
+        const id = newHouse.id.toString()
+        console.log(newHouse)
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(id)
+            .set(newHouse)
 
+        const house = await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(id)
+            .get()
+        house.data()
+        dispatch(addHouse(house.data()))
+    }
+}
 
 export const fetchHouses = (userId) => {
     return async dispatch => {
@@ -51,6 +79,8 @@ export default function (state = initialState, action) {
             return { ...state, houses: action.houses, loading: false }
         case DELETE_HOUSE:
             return state.filter(house => house.id !== action.id)
+        case ADD_HOUSE:
+            return { ...state.houses, houses: [...state.houses, action.house] }
         default:
             return state
     }

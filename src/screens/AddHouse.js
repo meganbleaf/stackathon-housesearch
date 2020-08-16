@@ -3,9 +3,10 @@ import { StyleSheet, Button, TextInput, View, Text, Image } from 'react-native'
 import { Formik } from 'formik'
 import colors from '../../app/config/colors'
 import styles from '../../app/config/styles'
-import { addNewHouse } from '../../src/store/house'
+import { addNewHouse } from '../../src/store/houses'
 import { connect } from 'react-redux'
 import { getStateFromPath } from '@react-navigation/native'
+import ImagePickerButton from '../utils/ImagePicker'
 
 export function AddHouse(props) {
     const [price, setPrice] = useState('')
@@ -17,9 +18,13 @@ export function AddHouse(props) {
         const payload = { price, status, photos, address }
         const userId = props.route.params.userId
         props.addNewHouse(payload, userId)
-
+        props.navigation.navigate('AllHousesList')
     }
-    console.log('did we get userId in add house', props)
+
+
+
+
+
     return (
         <View>
             <Image
@@ -45,12 +50,13 @@ export function AddHouse(props) {
                         onChangeText={(status) => setStatus(status)}
                         value={status}
                     />
-                    <TextInput
+                    {/* <TextInput
                         style={styles.input}
                         placeholder='photos'
                         onChangeText={(photos) => setPhotos(photos)}
                         value={photos}
-                    />
+                    /> */}
+                    <ImagePickerButton />
 
                     <Button title='Add To My List'
                         color={colors.pink}
