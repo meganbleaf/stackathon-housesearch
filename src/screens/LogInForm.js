@@ -51,7 +51,7 @@ export default function LogInForm({ navigation }) {
 
                 <TextInput
                     style={styles.input}
-                    placeholder='E-mail'
+                    placeholder='Email'
                     placeholderTextColor="#aaaaaa"
                     onChangeText={(text) => setEmail(text)}
                     value={email}

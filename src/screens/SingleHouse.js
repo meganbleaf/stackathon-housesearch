@@ -2,7 +2,7 @@ import React, { useState, getState, useEffect } from 'react'
 import { Button, View, Text, Image } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
-import { getSingleHouseThunk } from '../store/house'
+import { getSingleHouseThunk, updateSingleHouseThunk } from '../store/house'
 import ImagePickerButton from '../utils/ImagePicker'
 
 export function SingleHouse(props) {
@@ -10,9 +10,10 @@ export function SingleHouse(props) {
     const [pros, setPros] = useState('')
     const [cons, setCons] = useState('')
     const house = props.route.params.house
+    console.log('house in single house', house)
     const houseId = props.route.params.house.id
     const userId = props.route.params.userId
-    console.log("can we just use house as props?", house)
+
 
     // useEffect(() => {
     //     props.getHouse(houseId, userId)
@@ -35,12 +36,13 @@ export function SingleHouse(props) {
     return (
         <View style={{ height: 275, paddingLeft: 32 }}>
             <Image style={{ height: 200, width: 200 }} source={require('../../app/assets/house.png')}></Image>
-            <View>
-                <Text>{house.address}</Text>
-                <Text>{house.price}</Text>
-                <Text>{house.status}</Text>
 
-            </View>
+            <Text>{house.address}</Text>
+            <Text>{house.price}</Text>
+            <Text>{house.status}</Text>
+            <Button onPress={() => props.navigation.navigate('UpdateHouse', { house, userId })} title='update'>update house</Button>
+
+
             <View>
                 <View>
                     <TextInput

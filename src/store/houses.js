@@ -8,6 +8,7 @@ const initialState = {
 const GET_ALL_HOUSES = 'GET_ALL_HOUSES'
 const ADD_HOUSE = 'ADD_HOUSE'
 const DELETE_HOUSE = 'DELETE_HOUSE'
+const UPDATE_HOUSE = 'UPDATE_HOUSE'
 
 const allHouses = houses => {
     return {
@@ -28,6 +29,14 @@ const addHouse = house => {
         house
     }
 }
+
+const updateHouse = house => {
+    return {
+        type: UPDATE_HOUSE,
+        house
+    }
+}
+
 
 //////thunks
 export const addNewHouse = (newHouse, userId) => {
@@ -85,6 +94,30 @@ export const deleteHouseThunk = (userId, id) => {
     }
 }
 
+export const updateSingleHouseThunk = (userId, id, payload) => {
+    console.log('what is id in thunk', id)
+    let stringId = id.toString()
+    return async dispatch => {
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .update(payload)
+
+        const updatedHouse = await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .get()
+        console.log('update house here', updatedHouse.data())
+        dispatch(updateHouse(updatedHouse.data()))
+    }
+}
+
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -94,6 +127,16 @@ export default function (state = initialState, action) {
             return { ...state, houses: state.houses.filter((house) => { return house.id !== action.id }) }
         case ADD_HOUSE:
             return { ...state.houses, houses: [...state.houses, action.house] }
+        case UPDATE_HOUSE:
+            return {
+                ...state, houses: state.houses.map((house) => {
+                    if (house.id === action.house.id) {
+                        return action.house
+                    } else {
+                        return house
+                    }
+                })
+            }
         default:
             return state
     }

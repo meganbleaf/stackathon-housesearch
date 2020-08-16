@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, ActivityIndicator, View, Text, Button, Interact
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import colors from '../../app/config/colors'
-import { AntDesign } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { fetchHouses, deleteHouseThunk } from '../store/houses'
 import { connect } from 'react-redux'
@@ -12,6 +12,7 @@ import { firebase } from '../firebase/config'
 export function AllHousesList(props) {
 
     const userId = props.route.params.user.id
+
     useEffect(() => {
         props.getAllHouses(userId)
     }, [])
@@ -22,10 +23,9 @@ export function AllHousesList(props) {
     } else if (!loading && houses.length === 0) {
         return (
             <View>
-                <Text>No saved houses</Text>
+                <Text style={{ alignSelf: "center", justifyContent: 'center', padding: 18 }}>Add a house to your list</Text>
                 <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} style={theseStyles.addList}>
-                    <AntDesign name="plus" size={16} color={colors.blue} />
-                    {/* <Button title='add house' }>Add A New House</Button> */}
+                    <Entypo alignItems={'center'} name="plus" size={20} color={'#fff'} />
                 </TouchableOpacity>
             </View>)
 
@@ -34,19 +34,18 @@ export function AllHousesList(props) {
     return (
 
         <View style={theseStyles.container}>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'column' }}>
                 <Text style={theseStyles.title}>Add House</Text>
             </View>
-            <View style={{ marginVertical: 48 }}>
+            <View >
                 <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} style={theseStyles.addList}>
-                    <AntDesign name="plus" size={16} color={colors.blue} />
-                    {/* <Button title='add house' }>Add A New House</Button> */}
+                    <Entypo alignItems={'center'} name="plus" size={20} color={'#fff'} />
                 </TouchableOpacity>
             </View>
             <View style={{ height: 275, paddingLeft: 32 }}>
                 {houses.map((house, index) => (
                     <View key={index}>
-                        <TouchableOpacity onPress={() => { props.navigation.navigate('SingleHouse', { house }) }} >
+                        <TouchableOpacity onPress={() => { props.navigation.navigate('SingleHouse', { house, userId }) }} >
                             <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
                             <Text>
                                 {house.address}
@@ -76,17 +75,23 @@ const theseStyles = StyleSheet.create({
         backgroundColor: "#fff"
     },
     title: {
+        alignSelf: "center",
+        justifyContent: 'center',
         fontSize: 38,
         fontWeight: "400",
         color: colors.black,
-        paddingHorizontal: 64
+        padding: 20
+        // paddingHorizontal: 64
     },
     addList: {
+        marginLeft: 190,
+        marginRight: 190,
+        height: 30,
         borderWidth: 2,
-        borderColor: colors.teal,
+        backgroundColor: colors.teal,
         borderRadius: 4,
-        padding: 16,
         alignItems: "center",
+        alignContent: 'center',
         justifyContent: "center"
     }
 })
