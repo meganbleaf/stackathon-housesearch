@@ -5,12 +5,12 @@ import styles from './styles';
 import colors from '../../app/config/colors'
 import { AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { fetchHouses } from '../store/houses'
+import { fetchHouses, deleteHouseThunk } from '../store/houses'
 import { connect } from 'react-redux'
 import { firebase } from '../firebase/config'
 
 export function AllHousesList(props) {
-    console.log("AM I BEING RENDERED TWICE?")
+
     const userId = props.route.params.user.id
     useEffect(() => {
         props.getAllHouses(userId)
@@ -20,7 +20,15 @@ export function AllHousesList(props) {
     if (loading) {
         return <Text>Loading your saved houses</Text>
     } else if (!loading && houses.length === 0) {
-        return <Text>No saved houses</Text>
+        return (
+            <View>
+                <Text>No saved houses</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} style={theseStyles.addList}>
+                    <AntDesign name="plus" size={16} color={colors.blue} />
+                    {/* <Button title='add house' }>Add A New House</Button> */}
+                </TouchableOpacity>
+            </View>)
+
     }
 
     return (
@@ -37,12 +45,17 @@ export function AllHousesList(props) {
             </View>
             <View style={{ height: 275, paddingLeft: 32 }}>
                 {houses.map((house, index) => (
-                    <TouchableOpacity onPress={() => { props.navigation.navigate('SingleHouse', { house }) }} key={index} >
-                        <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
-                        <Text>
-                            {house.address}
-                        </Text>
-                    </TouchableOpacity>
+                    <View key={index}>
+                        <TouchableOpacity onPress={() => { props.navigation.navigate('SingleHouse', { house }) }} >
+                            <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
+                            <Text>
+                                {house.address}
+                            </Text>
+                        </TouchableOpacity>
+                        <View>
+                            <Button onPress={() => props.deleteHouse(userId, house.id)} title='delete'></Button>
+                        </View>
+                    </View>
                 ))}
             </View>
         </View>
@@ -87,7 +100,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getAllHouses: (userId) => dispatch(fetchHouses(userId))
+        getAllHouses: (userId) => dispatch(fetchHouses(userId)),
+        deleteHouse: (userId, id) => dispatch(deleteHouseThunk(userId, id))
     }
 }
 

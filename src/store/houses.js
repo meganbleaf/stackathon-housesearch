@@ -57,7 +57,6 @@ export const addNewHouse = (newHouse, userId) => {
 
 export const fetchHouses = (userId) => {
     return async dispatch => {
-        console.log('got inside the thunk')
         let housesArr = []
         const houses = await firebase
             .firestore()
@@ -72,13 +71,27 @@ export const fetchHouses = (userId) => {
     }
 }
 
+export const deleteHouseThunk = (userId, id) => {
+    let stringId = id.toString()
+    return async dispatch => {
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .delete()
+        dispatch(deleteHouse(id))
+    }
+}
+
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_ALL_HOUSES:
             return { ...state, houses: action.houses, loading: false }
         case DELETE_HOUSE:
-            return state.filter(house => house.id !== action.id)
+            return { ...state, houses: state.houses.filter((house) => { return house.id !== action.id }) }
         case ADD_HOUSE:
             return { ...state.houses, houses: [...state.houses, action.house] }
         default:
