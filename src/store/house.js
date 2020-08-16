@@ -33,13 +33,13 @@ const addHouse = house => {
 
 //////thunk?
 
-export const addNewHouse = (newHouse) => {
+export const addNewHouse = (newHouse, userId) => {
     return async dispatch => {
         console.log(newHouse)
         const house = await firebase
             .firestore()
             .collection('users')
-            .doc('a0gDe0l1W7OAufnvFGI5dGjVpMv1')
+            .doc(userId)
             .collection('houses')
             .doc()
             .set(newHouse)

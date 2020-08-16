@@ -15,10 +15,11 @@ export function AddHouse(props) {
 
     const onSubmit = () => {
         const payload = { price, status, photos, address }
-        props.addNewHouse(payload)
+        const userId = props.route.params.userId
+        props.addNewHouse(payload, userId)
 
     }
-
+    console.log('did we get userId in add house', props)
     return (
         <View>
             <Image
@@ -71,7 +72,7 @@ const styleSheet = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
     return {
-        addNewHouse: (newHouse) => dispatch(addNewHouse(newHouse))
+        addNewHouse: (newHouse, userId) => dispatch(addNewHouse(newHouse, userId))
     }
 
 }

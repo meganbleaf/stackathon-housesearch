@@ -27,14 +27,14 @@ const deleteHouse = id => {
 //////thunks
 
 
-export const fetchHouses = () => {
+export const fetchHouses = (userId) => {
     return async dispatch => {
         console.log('got inside the thunk')
         let housesArr = []
         const houses = await firebase
             .firestore()
             .collection('users')
-            .doc('a0gDe0l1W7OAufnvFGI5dGjVpMv1')
+            .doc(userId)
             .collection('houses')
             .get()
         houses.docs.forEach(doc => {

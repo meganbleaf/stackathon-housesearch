@@ -9,8 +9,9 @@ import { fetchHouses } from '../store/houses'
 import { connect } from 'react-redux'
 
 export function AllHousesList(props) {
+    const userId = props.route.params.user.id
     useEffect(() => {
-        props.getAllHouses()
+        props.getAllHouses(userId)
     }, [])
 
     const { houses, loading } = props.houses
@@ -19,8 +20,7 @@ export function AllHousesList(props) {
     } else if (!loading && houses.length === 0) {
         return <Text>No saved houses</Text>
     }
-    console.log('do we have houses', houses)
-
+    console.log(userId)
     return (
 
         <View style={theseStyles.container}>
@@ -28,15 +28,15 @@ export function AllHousesList(props) {
                 <Text style={theseStyles.title}>Add House</Text>
             </View>
             <View style={{ marginVertical: 48 }}>
-                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse')} style={theseStyles.addList}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} style={theseStyles.addList}>
                     <AntDesign name="plus" size={16} color={colors.blue} />
                     {/* <Button title='add house' }>Add A New House</Button> */}
                 </TouchableOpacity>
             </View>
             <View style={{ height: 275, paddingLeft: 32 }}>
-                {houses.map((house) => (
-                    <TouchableOpacity >
-                        <Image style={{ height: 300, width: 300 }} source={require('../../app/assets/house.png')}></Image>
+                {houses.map((house, index) => (
+                    <TouchableOpacity key={index} >
+                        <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
                         <Text>
                             {house.address}
                         </Text>
@@ -85,7 +85,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getAllHouses: () => dispatch(fetchHouses())
+        getAllHouses: (userId) => dispatch(fetchHouses(userId))
     }
 }
 
