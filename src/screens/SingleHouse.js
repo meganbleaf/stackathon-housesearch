@@ -10,7 +10,6 @@ export function SingleHouse(props) {
     const [pros, setPros] = useState('')
     const [cons, setCons] = useState('')
     const house = props.route.params.house
-    console.log('house in single house', house)
     const houseId = props.route.params.house.id
     const userId = props.route.params.userId
 
@@ -44,35 +43,23 @@ export function SingleHouse(props) {
 
 
             <View>
-                <View>
+                {/* <View>
                     <TextInput
                         placeholder='notes'
                         onChangeText={(notes) => setNotes(notes)}
                         value={notes}
                     />
-                    <Button title='add notes'></Button>
-                </View>
-                <View>
-                    <TextInput
-                        placeholder='pros'
-                        onChangeText={(pros) => setPros(pros)}
-                        value={pros}
-                    />
-                </View>
-                <View>
-                    <Button title='add pros'></Button>
-                    <TextInput
-                        placeholder='cons'
-                        onChangeText={(cons) => setCons(cons)}
-                        value={cons}
-                    />
-                    <Button title='add cons'></Button>
+                    <Button title='add notes'></Button> */}
+            </View>
+            {/* <View>
+
+                    <Button title='add pros & cons'></Button>
                 </View>
                 <View>
                     <ImagePickerButton />
-                </View>
-            </View>
+                </View> */}
         </View>
+
     )
 
 }

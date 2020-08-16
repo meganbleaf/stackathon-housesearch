@@ -95,7 +95,6 @@ export const deleteHouseThunk = (userId, id) => {
 }
 
 export const updateSingleHouseThunk = (userId, id, payload) => {
-    console.log('what is id in thunk', id)
     let stringId = id.toString()
     return async dispatch => {
         await firebase
@@ -113,7 +112,6 @@ export const updateSingleHouseThunk = (userId, id, payload) => {
             .collection('houses')
             .doc(stringId)
             .get()
-        console.log('update house here', updatedHouse.data())
         dispatch(updateHouse(updatedHouse.data()))
     }
 }

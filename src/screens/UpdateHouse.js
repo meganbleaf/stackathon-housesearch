@@ -10,13 +10,11 @@ export function UpdateHouse(props) {
     const [status, setStatus] = useState('')
     const [address, setAddress] = useState('')
     const houseId = props.route.params.house.id
-    console.log('props inside update house', props)
-    console.log('houseid', houseId)
     const onSubmit = async () => {
         const payload = { price: price, status: status, address: address }
         const userId = props.route.params.userId
         props.updateHouse(userId, houseId, payload)
-        props.navigation.navigate('SingleHouse')
+        props.navigation.navigate('AllHousesList')
     }
 
     return (
