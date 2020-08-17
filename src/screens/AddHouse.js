@@ -1,6 +1,5 @@
 import React, { useState, getState } from 'react'
 import { StyleSheet, Button, TextInput, View, Text, Image, Picker } from 'react-native'
-import { Formik } from 'formik'
 import colors from '../../app/config/colors'
 import styles from '../../app/config/styles'
 import { addNewHouse } from '../../src/store/houses'

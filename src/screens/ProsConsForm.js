@@ -1,21 +1,27 @@
 import React, { useState } from 'react'
 import { StyleSheet, Button, TextInput, View, Text, TouchableOpacity, Picker, Slider } from 'react-native'
-import { Formik } from 'formik'
+import { useLinkProps } from '@react-navigation/native'
+import { connect } from 'react-redux'
+import { addNew } from '../store/prosandcons'
 
 
 
 
-export default function ProsConsForm() {
+
+export function ProsConsForm(props) {
+
+
+
     const [type, setType] = useState('')
     const [input, setInput] = useState('')
     const [score, setScore] = useState('')
-    const choices = [
-        { label: 'pro', value: 'pro' },
-        { label: 'con', value: 'con' }
-    ]
 
-    const handleSubmit = (values, actions) => {
-        actions.resetForm()
+    const userId = props.userId
+    const houseId = props.houseId
+
+    const handleSubmit = () => {
+        const payload = { type, input, score }
+        props.addNewProsAndCons(payload, userId, houseId)
     }
 
     console.log(score)
@@ -58,8 +64,12 @@ export default function ProsConsForm() {
     )
 }
 
-
-
+const mapDispatchToProps = dispatch => {
+    return {
+        addNewProsAndCons: (payload, userId, houseId) => dispatch(addNew(payload, userId, houseId))
+    }
+}
+export default connect(null, mapDispatchToProps)(ProsConsForm)
 
 {/* <View>
 <Formik

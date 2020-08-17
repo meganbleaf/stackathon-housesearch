@@ -4,6 +4,7 @@ import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { getSingleHouseThunk, } from '../store/house'
 import { updateSingleHouseThunk } from '../store/house'
+import { fetchProsAndCons } from '../store/prosandcons'
 import ImagePickerButton from '../utils/ImagePicker'
 import { MaterialIcons } from '@expo/vector-icons'
 import colors from '../../app/config/colors'
@@ -17,21 +18,25 @@ export function SingleHouse(props) {
     const house = props.house
     const houseId = props.route.params.house.id
     const userId = props.route.params.userId
-    console.log('props inside single house', props)
+    const prosandconsArr = props.prosandcons.prosandcons
+
+
 
     useEffect(() => {
-        props.getHouse(houseId, userId)
+        props.getHouse(houseId, userId),
+            props.getProsAndCons(houseId, userId)
     }, [])
 
-    const onSubmit = () => {
-        if (Button.name === 'pros') {
 
-        } else if (Button.name === 'cons') {
+    // if (loading) {
+    //     return <Text>Loading your notes</Text>
+    // } else if (!loading && prosandcons.length === 0) {
+    //     return (
+    //         <View>
+    //             <Text>Add Some Pros and Cons</Text>
+    //         </View>)
 
-        } else {
-            //  notes
-        }
-    }
+    // }
 
 
     return (
@@ -45,7 +50,7 @@ export function SingleHouse(props) {
                 <Button onPress={() => props.navigation.navigate('UpdateHouse', { house, userId })} title='update'>update house</Button>
 
                 <View>
-                    <Modal visible={modalOpen} animationType='slide'>
+                    <Modal visible={modalOpen} animationType='slide' >
                         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                             <View style={styles.modalContent}>
                                 <Text>testing the modal</Text>
@@ -54,8 +59,9 @@ export function SingleHouse(props) {
                                     name='close'
                                     size={24}
                                     onPress={() => setModalOpen(false)}
+
                                 />
-                                <ProsConsForm />
+                                <ProsConsForm userId={userId} houseId={houseId} />
                             </View>
                         </TouchableWithoutFeedback>
                     </Modal>
@@ -68,20 +74,45 @@ export function SingleHouse(props) {
                 onPress={() => setModalOpen(true)}
                 style={styles.modalToggle}
             />
+            <View>
+                <View  >
+                    {prosandconsArr.filter((prosandcons) => prosandcons.type === 'pro').map((pro, index) => (
+                        <View key={index}>
+                            <Text style={{ color: 'black' }}>
+                                {pro.input}
+                            </Text>
+                        </View>
+
+                    ))}
+                </View>
+                <View  >
+                    {prosandconsArr.filter((prosandcons) => prosandcons.type === 'con').map((con, index) => (
+                        <View key={index}>
+                            <Text style={{ color: 'black' }}>
+                                {con.input}
+                            </Text>
+                        </View>
+
+                    ))}
+                </View>
+            </View>
         </View>
+
     )
 
 }
 
 const mapStateToProps = state => {
     return {
-        house: state.house
+        house: state.house,
+        prosandcons: state.prosandcons
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getHouse: (houseId, userId) => dispatch(getSingleHouseThunk(houseId, userId))
+        getHouse: (houseId, userId) => dispatch(getSingleHouseThunk(houseId, userId)),
+        getProsAndCons: (userId, houseId) => dispatch(fetchProsAndCons(userId, houseId))
     }
 }
 
