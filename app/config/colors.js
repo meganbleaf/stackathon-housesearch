@@ -1,9 +1,9 @@
 export default {
-    purple: '#8338EC',
-    blue: '#3A86FF',
-    pink: '#FF006E',
-    orange: '#FB5607',
-    green: '#337357',
-    teal: '#0F7173',
+    purple: '#8338ec',
+    blue: '#49ADC1',
+    pink: '#E05265',
+    orange: '#F4A261',
+    green: '#56876D',
+    teal: '#157A6E',
     black: '#000'
 }

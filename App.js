@@ -12,7 +12,18 @@ import UpdateHouse from './src/screens/UpdateHouse'
 import { Provider } from 'react-redux'
 import store from './src/store/createStore'
 import { firebase } from './src/firebase/config'
+import ProsConsForm from './src/screens/ProsConsForm';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#3498db',
+    accent: '#f1c40f',
+  }
+}
 
 const Stack = createStackNavigator()
 
@@ -50,45 +61,52 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name='Welcome'
-            component={WelcomeScreen}
-            backgroundColor={colors.teal}
-          />
-          <Stack.Screen
-            name='LogInForm'
-            component={LogInForm}
-            options={{ title: 'Log In Form' }}
-          />
-          <Stack.Screen
-            name='SignUpForm'
-            component={SignUpForm}
-            options={{ title: 'Sign Up Form' }}
-          />
-          <Stack.Screen
-            name='AllHousesList'
-            component={AllHousesList}
-            options={{ title: 'All Houses List' }}
-          />
-          <Stack.Screen
-            name='AddHouse'
-            component={AddHouse}
-            options={{ title: 'Add House' }}
-          />
-          <Stack.Screen
-            name='SingleHouse'
-            component={SingleHouse}
-            options={{ title: 'Single House' }}
-          />
-          <Stack.Screen
-            name='UpdateHouse'
-            component={UpdateHouse}
-            options={{ title: 'Update House' }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name='Welcome'
+              component={WelcomeScreen}
+              backgroundColor={colors.teal}
+            />
+            <Stack.Screen
+              name='LogInForm'
+              component={LogInForm}
+              options={{ title: 'Log In Form' }}
+            />
+            <Stack.Screen
+              name='SignUpForm'
+              component={SignUpForm}
+              options={{ title: 'Sign Up Form' }}
+            />
+            <Stack.Screen
+              name='AllHousesList'
+              component={AllHousesList}
+              options={{ title: 'All Houses List' }}
+            />
+            <Stack.Screen
+              name='AddHouse'
+              component={AddHouse}
+              options={{ title: 'Add House' }}
+            />
+            <Stack.Screen
+              name='SingleHouse'
+              component={SingleHouse}
+              options={{ title: 'Single House' }}
+            />
+            <Stack.Screen
+              name='UpdateHouse'
+              component={UpdateHouse}
+              options={{ title: 'Update House' }}
+            />
+            <Stack.Screen
+              name='ProsConsForm'
+              component={ProsConsForm}
+              options={{ title: 'Add Pros and Cons' }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
     </Provider>
   );
 }

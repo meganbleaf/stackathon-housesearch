@@ -1,70 +1,95 @@
+import { firebase } from '../firebase/config'
+
 const initialState = {
-    pros: [],
-    cons: []
+    prosandcons: [],
+    loading: true
 }
-const GET_PROS = 'GET_PROS'
-const GET_CONS = 'GET_CONS'
-const ADD_PRO = 'ADD_PRO'
-const ADD_CON = 'ADD_CON'
-const DELETE_PRO = 'DELETE_PRO'
-const DELETE_CON = 'DELETE_CON'
+const GET_PROS_AND_CONS = 'GET_PROS_AND_CONS'
+const ADD_PROS_AND_CONS = 'ADD_PROS_AND_CONS'
+const DELETE_PROS_AND_CONS = 'DELETE_PROS_AND_CONS'
 
-const getPros = pros => {
+const getProsAndCons = prosandcons => {
     return {
-        type: GET_PROS,
-        pros
-    }
-}
-const getCons = cons => {
-    return {
-        type: GET_CONS,
-        cons
+        type: GET_PROS_AND_CONS,
+        prosandcons
     }
 }
 
-const addPro = pro => {
+
+const addProsAndCons = prosandcons => {
     return {
-        type: ADD_PRO,
-        pro
-    }
-}
-const addCon = con => {
-    return {
-        type: ADD_CON,
-        con
+        type: ADD_PROS_AND_CONS,
+        prosandcons
     }
 }
 
-const deletePro = id => {
+const deleteProsAndCons = id => {
     return {
-        type: DELETE_PRO,
-        id
-    }
-}
-const deleteCon = id => {
-    return {
-        type: DELETE_CON,
+        type: DELETE_PROS_AND_CONS,
         id
     }
 }
 
 //thunks
+export const fetchProsAndCons = (houseId, userId) => {
+    console.log('inside the thunk')
+    const stringId = houseId.toString()
+    console.log('string id in the thunk', stringId)
+    return async dispatch => {
+        let prosAndConsArr = []
+        const pandcs = await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .collection('prosandcons')
+            .get()
+        pandcs.docs.forEach(doc => {
+            prosAndConsArr.push(doc.data())
+        })
+        console.log('pros and cons array', prosAndConsArr)
+        dispatch(getProsAndCons(prosAndConsArr))
+    }
+}
 
+export const addNew = (payload, userId, houseId) => {
+    return async dispatch => {
+        payload.id = Math.random() * 1000000000000000000000000
+        const id = payload.id.toString()
+        const stringId = houseId.toString()
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .collection('prosandcons')
+            .doc(id)
+            .set(payload)
+
+        const newPandC = await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .collection('prosandcons')
+            .doc(id)
+            .get()
+        newPandC.data()
+        dispatch(addProsAndCons(newPandC.data()))
+    }
+}
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case GET_PROS:
-            return action.pros
-        case GET_CONS:
-            return action.cons
-        case ADD_PRO:
-            return [...state.pros, action.pro]
-        case ADD_CON:
-            return [...state.cons, action.con]
-        case DELETE_PRO:
-            return state.filter(pro => pro.id !== pro.id)
-        case DELETE_CON:
-            return state.filter(con => con.id !== con.id)
+        case GET_PROS_AND_CONS:
+            return { ...state, prosandcons: action.prosandcons, loading: false }
+        case ADD_PROS_AND_CONS:
+            return { ...state.prosandcons, prosandcons: [...state.prosandcons, action.prosandcons] }
+        // case DELETE_PROS_AND_CONS:
+        // return state.filter(pro => pro.id !== pro.id)
         default:
             return state
     }

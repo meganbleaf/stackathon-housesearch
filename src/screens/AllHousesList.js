@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, ActivityIndicator, View, Text, Button, Interact
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import colors from '../../app/config/colors'
-import { Entypo, AntDesign } from '@expo/vector-icons'
+import { Entypo, AntDesign, MaterialIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { fetchHouses, deleteHouseThunk } from '../store/houses'
 import { connect } from 'react-redux'
@@ -24,9 +24,12 @@ export function AllHousesList(props) {
     } else if (!loading && houses.length === 0) {
         return (
             <View>
-                <Text style={{ alignSelf: "center", justifyContent: 'center', padding: 18 }}>Add a house to your list</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} style={theseStyles.addList}>
-                    <Entypo alignItems={'center'} name="plus" size={20} color={'#fff'} />
+                <Text style={{ alignSelf: "center", justifyContent: 'center', padding: 18, fontSize: 24 }}>Add a house to your list</Text>
+                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} >
+                    <MaterialIcons
+                        name='add'
+                        size={24}
+                        style={theseStyles.addButton} />
                 </TouchableOpacity>
             </View>)
 
@@ -37,13 +40,17 @@ export function AllHousesList(props) {
         <View style={theseStyles.container} >
 
             <View style={{ flexDirection: 'column' }}>
-                <Text style={theseStyles.title}>Add House</Text>
+                <Text style={{ ...theseStyles.title, fontWeight: '600' }}>My Houses</Text>
             </View>
 
 
             <View >
-                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} style={theseStyles.addList}>
-                    <Entypo alignItems={'center'} name="plus" size={20} color={'#fff'} />
+                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} >
+                    <MaterialIcons
+                        name='add'
+                        size={24}
+                        style={theseStyles.addButton}
+                    />
                 </TouchableOpacity>
             </View>
 
@@ -60,11 +67,11 @@ export function AllHousesList(props) {
                                         <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
 
 
-                                        <Text style={{ color: 'white' }}>
+                                        <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>
                                             {house.address}
                                         </Text>
                                         <TouchableOpacity onPress={() => props.deleteHouse(userId, house.id)}>
-                                            <AntDesign alignItems={'center'} name="delete" size={24} color={colors.black} />
+                                            <AntDesign alignItems={'center'} name="delete" size={24} color='black' />
                                         </TouchableOpacity>
                                     </View>
                                 </TouchableOpacity>
@@ -78,7 +85,7 @@ export function AllHousesList(props) {
                             <TouchableOpacity key={index} onPress={() => { props.navigation.navigate('SingleHouse', { house, userId }) }} >
                                 <View style={theseStyles.houseBlock} backgroundColor={colors.teal} >
                                     <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
-                                    <Text style={{ color: 'white' }} >
+                                    <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }} >
                                         {house.address}
                                     </Text>
                                     <TouchableOpacity onPress={() => props.deleteHouse(userId, house.id)}>
@@ -95,7 +102,7 @@ export function AllHousesList(props) {
                             <TouchableOpacity key={index} onPress={() => { props.navigation.navigate('SingleHouse', { house, userId }) }} >
                                 <View style={theseStyles.houseBlock} backgroundColor={colors.pink} >
                                     <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
-                                    <Text style={{ color: 'white' }} >
+                                    <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }} >
                                         {house.address}
                                     </Text>
                                     <TouchableOpacity onPress={() => props.deleteHouse(userId, house.id)}>
@@ -130,38 +137,38 @@ const theseStyles = StyleSheet.create({
     title: {
         alignSelf: "center",
         justifyContent: 'center',
-        fontSize: 38,
-        fontWeight: "400",
+        fontSize: 30,
         color: colors.black,
         padding: 20
-        // paddingHorizontal: 64
-    },
-    addList: {
-        marginLeft: 190,
-        marginRight: 190,
-        height: 30,
-        borderWidth: 2,
-        backgroundColor: colors.teal,
-        borderRadius: 4,
-        alignItems: "center",
-        alignContent: 'center',
-        justifyContent: "center"
+
     },
     visited: {
         backgroundColor: colors.purple
     },
     houseBlock: {
+        fontSize: 18,
+        fontWeight: 'bold',
         flexDirection: 'row',
         backgroundColor: '#fff',
         marginLeft: 30,
         marginRight: 70,
         marginTop: 20,
-        height: 100,
+        height: 60,
         width: 350,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'space-around'
 
+    },
+    addButton: {
+        marginBottom: 10,
+        marginTop: 10,
+        marginRight: 2,
+        borderWidth: 1,
+        borderColor: 'black',
+        padding: 2,
+        borderRadius: 5,
+        alignSelf: 'center'
     }
 
 })

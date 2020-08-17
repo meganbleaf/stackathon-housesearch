@@ -1,6 +1,5 @@
 import React, { useState, getState } from 'react'
-import { StyleSheet, Button, TextInput, View, Text, Image, Picker } from 'react-native'
-import { Formik } from 'formik'
+import { StyleSheet, Button, TextInput, View, Text, Image, Picker, TouchableOpacity } from 'react-native'
 import colors from '../../app/config/colors'
 import styles from '../../app/config/styles'
 import { addNewHouse } from '../../src/store/houses'
@@ -27,7 +26,7 @@ export function AddHouse(props) {
     return (
         <View>
             <Image
-                style={styleSheet.image}
+                style={stylesHere.image}
                 source={{ uri: 'https://images.unsplash.com/photo-1488707872600-5507977fe355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjF9&auto=format&fit=crop&w=2100&q=80' }}></Image>
             <View>
                 <View >
@@ -44,13 +43,17 @@ export function AddHouse(props) {
                         value={price}
                     />
                     <View>
-                        <Text>Status</Text>
-                        <Picker onValueChange={(value) => {
-                            if (value === '') {
-                                value = 'Visited'
-                            }
-                            setStatus(value)
-                        }} selectedValue={status}>
+                        <View style={stylesHere.status}>
+                            <Text style={{ fontSize: 24, fontWeight: '400' }}>Status</Text>
+                        </View>
+                        <Picker
+                            style={stylesHere.picker}
+                            onValueChange={(value) => {
+                                if (value === '') {
+                                    value = 'Visited'
+                                }
+                                setStatus(value)
+                            }} selectedValue={status}>
                             <Picker.Item label='Select One' itemStyle={{ backgroundColor: colors.blue }} />
                             <Picker.Item label='Visited' value='Visited' />
                             <Picker.Item label='Scheduled' value='Scheduled' />
@@ -60,10 +63,13 @@ export function AddHouse(props) {
                     </View>
                     <ImagePickerButton />
 
-                    <Button title='Add To My List'
-                        color={colors.pink}
+                    <TouchableOpacity
+                        style={stylesHere.addButton}
                         onPress={() => onSubmit()}
-                    ></Button>
+                    ><Text style={stylesHere.buttonTitle}>Add</Text>
+                    </TouchableOpacity>
+
+
                 </View>
 
             </View>
@@ -71,12 +77,7 @@ export function AddHouse(props) {
     )
 }
 
-const styleSheet = StyleSheet.create({
-    image: {
-        height: 300,
-        width: 300
-    }
-})
+
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -86,3 +87,37 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(null, mapDispatchToProps)(AddHouse)
+
+const stylesHere = StyleSheet.create({
+    image: {
+        height: 300,
+        width: 500,
+        marginBottom: 15,
+        alignContent: 'center',
+        justifyContent: 'center'
+    },
+    status: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: 50,
+
+    },
+    picker: {
+        marginTop: 0
+    },
+    addButton: {
+        backgroundColor: colors.purple,
+        marginLeft: 30,
+        marginRight: 30,
+        marginTop: 20,
+        height: 48,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: 'center'
+    },
+    buttonTitle: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: "bold"
+    },
+})
