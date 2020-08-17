@@ -93,26 +93,24 @@ export function AllHousesList(props) {
 
                         {houses.filter((house) => house.status === 'To Schedule').map((house, index) => (
                             <TouchableOpacity key={index} onPress={() => { props.navigation.navigate('SingleHouse', { house, userId }) }} >
-                                <View backgroundColor={colors.pink} style={theseStyles.houseBlock} >
-
+                                <View style={theseStyles.houseBlock} backgroundColor={colors.pink} >
                                     <Image style={{ height: 50, width: 50 }} source={require('../../app/assets/house.png')}></Image>
-
                                     <Text style={{ color: 'white' }} >
                                         {house.address}
                                     </Text>
-
                                     <TouchableOpacity onPress={() => props.deleteHouse(userId, house.id)}>
                                         <AntDesign alignItems={'center'} name="delete" size={24} color={colors.black} />
                                     </TouchableOpacity>
                                 </View>
                             </TouchableOpacity>
-
                         ))}
                     </View>
 
                 </View>
+
             </View>
         </View>
+
 
     )
 
