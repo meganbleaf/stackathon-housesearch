@@ -58,7 +58,8 @@ export function AllHousesList(props) {
             <View style={{ height: 275, paddingLeft: 32 }}>
                 <View>
                     <View >
-
+                        <Text style={theseStyles.header}>Visited</Text>
+                        <Divider></Divider>
                         <View  >
                             {houses.filter((house) => house.status === 'Visited').map((house, index) => (
                                 <TouchableOpacity key={index} onPress={() => { props.navigation.navigate('SingleHouse', { house, userId }) }} >
@@ -77,10 +78,12 @@ export function AllHousesList(props) {
                                 </TouchableOpacity>
                             ))}
                         </View>
+
                     </View>
 
                     <View>
-
+                        <Text style={theseStyles.header}>Scheduled</Text>
+                        <Divider></Divider>
                         {houses.filter((house) => house.status === 'Scheduled').map((house, index) => (
                             <TouchableOpacity key={index} onPress={() => { props.navigation.navigate('SingleHouse', { house, userId }) }} >
                                 <View style={theseStyles.houseBlock} backgroundColor={colors.teal} >
@@ -97,7 +100,8 @@ export function AllHousesList(props) {
                     </View>
 
                     <View>
-
+                        <Text style={theseStyles.header}>To Schedule</Text>
+                        <Divider></Divider>
                         {houses.filter((house) => house.status === 'To Schedule').map((house, index) => (
                             <TouchableOpacity key={index} onPress={() => { props.navigation.navigate('SingleHouse', { house, userId }) }} >
                                 <View style={theseStyles.houseBlock} backgroundColor={colors.pink} >
@@ -169,6 +173,13 @@ const theseStyles = StyleSheet.create({
         padding: 2,
         borderRadius: 5,
         alignSelf: 'center'
+    },
+    header: {
+        fontSize: 20,
+        fontWeight: '600',
+        marginTop: 15,
+        marginLeft: 20,
+
     }
 
 })
