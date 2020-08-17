@@ -1,11 +1,13 @@
 import React, { useState, getState } from 'react'
-import { StyleSheet, Button, TextInput, View, Text, Image } from 'react-native'
+import { StyleSheet, Button, TextInput, View, Text, Image, Picker } from 'react-native'
 import { Formik } from 'formik'
 import colors from '../../app/config/colors'
 import styles from '../../app/config/styles'
-import { addNewHouse } from '../../src/store/house'
+import { addNewHouse } from '../../src/store/houses'
 import { connect } from 'react-redux'
 import { getStateFromPath } from '@react-navigation/native'
+import ImagePickerButton from '../utils/ImagePicker'
+
 
 export function AddHouse(props) {
     const [price, setPrice] = useState('')
@@ -15,9 +17,12 @@ export function AddHouse(props) {
 
     const onSubmit = () => {
         const payload = { price, status, photos, address }
-        props.addNewHouse(payload)
-
+        const userId = props.route.params.userId
+        props.addNewHouse(payload, userId)
+        props.navigation.navigate('AllHousesList')
     }
+
+
 
     return (
         <View>
@@ -38,18 +43,22 @@ export function AddHouse(props) {
                         onChangeText={(price) => setPrice(price)}
                         value={price}
                     />
-                    <TextInput
-                        style={styles.input}
-                        placeholder='status'
-                        onChangeText={(status) => setStatus(status)}
-                        value={status}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder='photos'
-                        onChangeText={(photos) => setPhotos(photos)}
-                        value={photos}
-                    />
+                    <View>
+                        <Text>Status</Text>
+                        <Picker onValueChange={(value) => {
+                            if (value === '') {
+                                value = 'Visited'
+                            }
+                            setStatus(value)
+                        }} selectedValue={status}>
+                            <Picker.Item label='Select One' itemStyle={{ backgroundColor: colors.blue }} />
+                            <Picker.Item label='Visited' value='Visited' />
+                            <Picker.Item label='Scheduled' value='Scheduled' />
+                            <Picker.Item label='To Schedule' value='To Schedule' />
+                        </Picker>
+
+                    </View>
+                    <ImagePickerButton />
 
                     <Button title='Add To My List'
                         color={colors.pink}
@@ -71,7 +80,7 @@ const styleSheet = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
     return {
-        addNewHouse: (newHouse) => dispatch(addNewHouse(newHouse))
+        addNewHouse: (newHouse, userId) => dispatch(addNewHouse(newHouse, userId))
     }
 
 }

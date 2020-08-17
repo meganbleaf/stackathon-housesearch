@@ -6,8 +6,9 @@ const initialState = {
 }
 
 const GET_ALL_HOUSES = 'GET_ALL_HOUSES'
-
+const ADD_HOUSE = 'ADD_HOUSE'
 const DELETE_HOUSE = 'DELETE_HOUSE'
+const UPDATE_HOUSE = 'UPDATE_HOUSE'
 
 const allHouses = houses => {
     return {
@@ -22,19 +23,54 @@ const deleteHouse = id => {
         id
     }
 }
+const addHouse = house => {
+    return {
+        type: ADD_HOUSE,
+        house
+    }
+}
+
+const updateHouse = house => {
+    return {
+        type: UPDATE_HOUSE,
+        house
+    }
+}
 
 
 //////thunks
-
-
-export const fetchHouses = () => {
+export const addNewHouse = (newHouse, userId) => {
     return async dispatch => {
-        console.log('got inside the thunk')
+        newHouse.id = Math.random() * 1000000000000000000000000
+        const id = newHouse.id.toString()
+        console.log(newHouse)
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(id)
+            .set(newHouse)
+
+        const house = await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(id)
+            .get()
+        house.data()
+        dispatch(addHouse(house.data()))
+    }
+}
+
+export const fetchHouses = (userId) => {
+    return async dispatch => {
         let housesArr = []
         const houses = await firebase
             .firestore()
             .collection('users')
-            .doc('a0gDe0l1W7OAufnvFGI5dGjVpMv1')
+            .doc(userId)
             .collection('houses')
             .get()
         houses.docs.forEach(doc => {
@@ -44,13 +80,61 @@ export const fetchHouses = () => {
     }
 }
 
+export const deleteHouseThunk = (userId, id) => {
+    let stringId = id.toString()
+    return async dispatch => {
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .delete()
+        dispatch(deleteHouse(id))
+    }
+}
+
+export const updateSingleHouseThunk = (userId, id, payload) => {
+    let stringId = id.toString()
+    return async dispatch => {
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .update(payload)
+
+        const updatedHouse = await firebase
+            .firestore()
+            .collection('users')
+            .doc(userId)
+            .collection('houses')
+            .doc(stringId)
+            .get()
+        dispatch(updateHouse(updatedHouse.data()))
+    }
+}
+
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_ALL_HOUSES:
             return { ...state, houses: action.houses, loading: false }
         case DELETE_HOUSE:
-            return state.filter(house => house.id !== action.id)
+            return { ...state, houses: state.houses.filter((house) => { return house.id !== action.id }) }
+        case ADD_HOUSE:
+            return { ...state.houses, houses: [...state.houses, action.house] }
+        case UPDATE_HOUSE:
+            return {
+                ...state, houses: state.houses.map((house) => {
+                    if (house.id === action.house.id) {
+                        return action.house
+                    } else {
+                        return house
+                    }
+                })
+            }
         default:
             return state
     }

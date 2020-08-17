@@ -7,14 +7,46 @@ import colors from './app/config/colors'
 import { WelcomeScreen, LogInForm, SignUpForm } from './src/screens'
 import AllHousesList from './src/screens/AllHousesList'
 import AddHouse from './src/screens/AddHouse'
+import SingleHouse from './src/screens/SingleHouse'
+import UpdateHouse from './src/screens/UpdateHouse'
 import { Provider } from 'react-redux'
 import store from './src/store/createStore'
+import { firebase } from './src/firebase/config'
 
 
 const Stack = createStackNavigator()
 
 export default function App() {
 
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const usersRef = firebase.firestore().collection('users');
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        usersRef
+          .doc(user.uid)
+          .get()
+          .then((document) => {
+            const userData = document.data()
+            setLoading(false)
+            setUser(userData)
+          })
+          .catch((error) => {
+            setLoading(false)
+          });
+      } else {
+        setLoading(false)
+      }
+    });
+  }, []);
+
+  if (loading) {
+    return (
+      <></>
+    )
+  }
 
   return (
     <Provider store={store}>
@@ -45,7 +77,16 @@ export default function App() {
             component={AddHouse}
             options={{ title: 'Add House' }}
           />
-
+          <Stack.Screen
+            name='SingleHouse'
+            component={SingleHouse}
+            options={{ title: 'Single House' }}
+          />
+          <Stack.Screen
+            name='UpdateHouse'
+            component={UpdateHouse}
+            options={{ title: 'Update House' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
