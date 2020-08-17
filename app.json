@@ -22,6 +22,6 @@
     "web": {
       "favicon": "./app/assets/favicon.png"
     },
-    "description": "A notes app to aid your home buying decision. Save the houses you've toured or plan to tour, pros and cons, notes, and photos and share them with your real estate agent, partner, or family."
+    "description": "A notes app to aid your home buying decision. Save the houses you've toured or plan to tour, and your pros and cons for each. "
   }
 }
