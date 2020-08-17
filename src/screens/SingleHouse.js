@@ -11,14 +11,30 @@ import colors from '../../app/config/colors'
 import ProsConsForm from './ProsConsForm'
 
 export function SingleHouse(props) {
-    const [notes, setNotes] = useState('')
-    const [pros, setPros] = useState('')
-    const [cons, setCons] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
     const house = props.house
     const houseId = props.route.params.house.id
     const userId = props.route.params.userId
     const prosandconsArr = props.prosandcons.prosandcons
+
+    const score = (array) => {
+        let sum = 0
+        for (let i = 0; i < array.length; i++) {
+            let currElem = array[i]
+            console.log(currElem)
+            if (currElem.type === 'pro') {
+                sum += currElem.score
+
+            } else {
+                sum -= currElem.score
+            }
+
+        }
+        return sum
+    }
+
+
+
 
 
 
@@ -66,6 +82,10 @@ export function SingleHouse(props) {
                         </TouchableWithoutFeedback>
                     </Modal>
                 </View>
+            </View>
+
+            <View>
+                <Text>Decision Score:{score(prosandconsArr)}</Text>
             </View>
 
             <MaterialIcons
@@ -137,3 +157,6 @@ const styles = StyleSheet.create({
         flex: 1
     }
 })
+
+
+
