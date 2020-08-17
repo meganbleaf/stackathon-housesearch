@@ -160,14 +160,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 10,
         borderWidth: 1,
-        borderColor: colors.blue,
-        padding: 5,
+        borderColor: 'black',
+        padding: 2,
         borderRadius: 5,
         alignSelf: 'center'
 
     },
     modalClose: {
-        marginTop: 25,
+        marginTop: 60,
         marginBottom: 0
     },
     modalContent: {

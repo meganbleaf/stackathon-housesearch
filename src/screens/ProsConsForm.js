@@ -4,7 +4,7 @@ import { useLinkProps } from '@react-navigation/native'
 import { connect } from 'react-redux'
 import { addNew } from '../store/prosandcons'
 
-
+import colors from '../../app/config/colors'
 
 
 
@@ -28,7 +28,6 @@ export function ProsConsForm(props) {
     return (
         <View >
             <View>
-                <Text>Type</Text>
                 <Picker onValueChange={(value) => {
                     setType(value)
                 }} selectedValue={type}>
@@ -44,8 +43,9 @@ export function ProsConsForm(props) {
                 onChangeText={(input) => setInput(input)}
                 value={input}
             />
-            <Text>How important is this to you?</Text>
-
+            <View style={styles.importance}>
+                <Text style={{ fontSize: 18 }}>How important is this to you?</Text>
+            </View>
             <Slider
                 minimumValue={0}
                 maximumValue={10}
@@ -54,10 +54,15 @@ export function ProsConsForm(props) {
                 onValueChange={(value) => { setScore(value) }}
 
             />
-
-            <Text>{score}</Text>
+            <View style={styles.score}>
+                <Text style={{ fontSize: 24 }}>{score}</Text>
+            </View>
             <View>
-                <Button onPress={() => handleSubmit()} title='add'></Button>
+                <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => handleSubmit()}
+                ><Text style={styles.buttonTitle}>Add</Text>
+                </TouchableOpacity>
             </View>
         </View>
 
@@ -71,46 +76,42 @@ const mapDispatchToProps = dispatch => {
 }
 export default connect(null, mapDispatchToProps)(ProsConsForm)
 
-{/* <View>
-<Formik
-    initialValues={{
-        input: '',
-        score: 0,
-        type: ''
-    }}
-    onSubmit={(values) => {
-        console.log(values)
-    }}
->
-    {
-        (props) => (
-            <View >
-                <TextInput
-                    style={styles.input}
-                    placeholder='input'
-                    onChangeText={props.handleChange('input')}
-                    value={props.values.input}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder='score'
-                    onChangeText={props.handleChange('score')}
-                    value={props.values.score}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder='type'
-                    onChangeText={props.handleChange('type')}
-                    value={props.values.type}
-                />
+const styles = StyleSheet.create({
+    input: {
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 20,
+        height: 50,
+        width: 400,
+        borderColor: 'black',
+        borderWidth: .5,
+        borderRadius: 5,
+        padding: 5
+    },
+    importance: {
+        padding: 30,
+        textAlign: 'center',
+        marginLeft: 60
+    },
+    score: {
+        padding: 30,
+        textAlign: 'center',
+        marginLeft: 170,
 
-                <Button title='submit'
-                    onPress={props.handleSubmit}
-                ></Button>
-            </View>
-        )
-    }
-
-</Formik>
-
-</View> */}
+    },
+    addButton: {
+        backgroundColor: colors.purple,
+        marginLeft: 30,
+        marginRight: 30,
+        marginTop: 20,
+        height: 48,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: 'center'
+    },
+    buttonTitle: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: "bold"
+    },
+})

@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, ActivityIndicator, View, Text, Button, Interact
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import colors from '../../app/config/colors'
-import { Entypo, AntDesign } from '@expo/vector-icons'
+import { Entypo, AntDesign, MaterialIcons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { fetchHouses, deleteHouseThunk } from '../store/houses'
 import { connect } from 'react-redux'
@@ -25,8 +25,11 @@ export function AllHousesList(props) {
         return (
             <View>
                 <Text style={{ alignSelf: "center", justifyContent: 'center', padding: 18, fontSize: 24 }}>Add a house to your list</Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} style={theseStyles.addList}>
-                    <Entypo alignItems={'center'} name="plus" size={20} color={'#fff'} />
+                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} >
+                    <MaterialIcons
+                        name='add'
+                        size={24}
+                        style={theseStyles.addButton} />
                 </TouchableOpacity>
             </View>)
 
@@ -37,13 +40,17 @@ export function AllHousesList(props) {
         <View style={theseStyles.container} >
 
             <View style={{ flexDirection: 'column' }}>
-                <Text style={theseStyles.title}>My Houses</Text>
+                <Text style={{ ...theseStyles.title, fontWeight: '600' }}>My Houses</Text>
             </View>
 
 
             <View >
-                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} style={theseStyles.addList}>
-                    <Entypo alignItems={'center'} name="plus" size={20} color={'#fff'} />
+                <TouchableOpacity onPress={() => props.navigation.navigate('AddHouse', { userId })} >
+                    <MaterialIcons
+                        name='add'
+                        size={24}
+                        style={theseStyles.addButton}
+                    />
                 </TouchableOpacity>
             </View>
 
@@ -131,21 +138,9 @@ const theseStyles = StyleSheet.create({
         alignSelf: "center",
         justifyContent: 'center',
         fontSize: 30,
-        fontWeight: "400",
         color: colors.black,
         padding: 20
 
-    },
-    addList: {
-        marginLeft: 190,
-        marginRight: 190,
-        height: 30,
-        borderWidth: 2,
-        backgroundColor: colors.teal,
-        borderRadius: 4,
-        alignItems: "center",
-        alignContent: 'center',
-        justifyContent: "center"
     },
     visited: {
         backgroundColor: colors.purple
@@ -164,6 +159,16 @@ const theseStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around'
 
+    },
+    addButton: {
+        marginBottom: 10,
+        marginTop: 10,
+        marginRight: 2,
+        borderWidth: 1,
+        borderColor: 'black',
+        padding: 2,
+        borderRadius: 5,
+        alignSelf: 'center'
     }
 
 })

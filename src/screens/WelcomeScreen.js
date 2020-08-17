@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageBackground, StyleSheet, View, Image, Text, Button } from 'react-native';
+import { ImageBackground, StyleSheet, View, Image, Text, Button, TouchableOpacity } from 'react-native';
 
 
 import colors from '../../app/config/colors'
@@ -18,11 +18,24 @@ const WelcomeScreen = ({ navigation }) => {
                 <Image style={styles.logo} source={require('../../app/assets/logo.png')} />
                 <Text style={styles.text}>Notes for House Hunters</Text>
             </View>
+
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('LogInForm')}
+            ><Text style={styles.buttonTitle}>Log In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('SignUpForm')}
+            ><Text style={styles.buttonTitle}>Sign Up</Text>
+            </TouchableOpacity>
+
+            {/*             
             <Button title='login' style={styles.loginButton}
                 onPress={() => navigation.navigate('LogInForm')}
             ></Button>
             <Button title='signup' style={styles.button}
-                onPress={() => navigation.navigate('SignUpForm')}></Button>
+                onPress={() => navigation.navigate('SignUpForm')}></Button> */}
         </ImageBackground>
     )
 };
@@ -64,14 +77,21 @@ const styles = StyleSheet.create({
         textShadowRadius: 5
     },
     button: {
-        backgroundColor: '#788eec',
+        width: 350,
+        backgroundColor: colors.purple,
         marginLeft: 30,
         marginRight: 30,
-        marginTop: 20,
+        marginTop: 18,
+        marginBottom: 50,
         height: 48,
         borderRadius: 5,
         alignItems: "center",
         justifyContent: 'center'
+    },
+    buttonTitle: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: "bold"
     },
 })
 
