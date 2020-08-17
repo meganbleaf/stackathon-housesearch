@@ -2,7 +2,8 @@ import React, { useState, getState, useEffect } from 'react'
 import { Button, View, Text, Image, Modal, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
-import { getSingleHouseThunk, updateSingleHouseThunk } from '../store/house'
+import { getSingleHouseThunk, } from '../store/house'
+import { updateSingleHouseThunk } from '../store/house'
 import ImagePickerButton from '../utils/ImagePicker'
 import { MaterialIcons } from '@expo/vector-icons'
 import colors from '../../app/config/colors'
@@ -13,14 +14,14 @@ export function SingleHouse(props) {
     const [pros, setPros] = useState('')
     const [cons, setCons] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
-    const house = props.route.params.house
+    const house = props.house
     const houseId = props.route.params.house.id
     const userId = props.route.params.userId
+    console.log('props inside single house', props)
 
-
-    // useEffect(() => {
-    //     props.getHouse(houseId, userId)
-    // }, [])
+    useEffect(() => {
+        props.getHouse(houseId, userId)
+    }, [])
 
     const onSubmit = () => {
         if (Button.name === 'pros') {
@@ -31,9 +32,6 @@ export function SingleHouse(props) {
             //  notes
         }
     }
-
-
-
 
 
     return (

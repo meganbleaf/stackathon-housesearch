@@ -1,71 +1,66 @@
-const initialState = {
-    pros: [],
-    cons: []
-}
-const GET_PROS = 'GET_PROS'
-const GET_CONS = 'GET_CONS'
-const ADD_PRO = 'ADD_PRO'
-const ADD_CON = 'ADD_CON'
-const DELETE_PRO = 'DELETE_PRO'
-const DELETE_CON = 'DELETE_CON'
+// const initialState = {
+//     prosAndCons =[]
+// }
+// const GET_PROS_AND_CONS = 'GET_PROS_AND_CONS'
+// const ADD_PROS_AND_CONS = 'ADD_PROS_AND_CONS'
+// const DELETE_PROS_AND_CONS = 'DELETE_PROS_AND_CONS'
 
-const getPros = pros => {
-    return {
-        type: GET_PROS,
-        pros
-    }
-}
-const getCons = cons => {
-    return {
-        type: GET_CONS,
-        cons
-    }
-}
-
-const addPro = pro => {
-    return {
-        type: ADD_PRO,
-        pro
-    }
-}
-const addCon = con => {
-    return {
-        type: ADD_CON,
-        con
-    }
-}
-
-const deletePro = id => {
-    return {
-        type: DELETE_PRO,
-        id
-    }
-}
-const deleteCon = id => {
-    return {
-        type: DELETE_CON,
-        id
-    }
-}
-
-//thunks
+// const getProsAndCons = prosAndCons => {
+//     return {
+//         type: GET_PROS_AND_CONS,
+//         prosAndCons
+//     }
+// }
 
 
-export default function (state = initialState, action) {
-    switch (action.type) {
-        case GET_PROS:
-            return action.pros
-        case GET_CONS:
-            return action.cons
-        case ADD_PRO:
-            return [...state.pros, action.pro]
-        case ADD_CON:
-            return [...state.cons, action.con]
-        case DELETE_PRO:
-            return state.filter(pro => pro.id !== pro.id)
-        case DELETE_CON:
-            return state.filter(con => con.id !== con.id)
-        default:
-            return state
-    }
-}
+// const addProsAndCons = prosAndCons => {
+//     return {
+//         type: ADD_PROS_AND_CONS,
+//         prosAndCons
+//     }
+// }
+
+// const deleteProsAndCons = id => {
+//     return {
+//         type: DELETE_PROS_AND_CONS,
+//         id
+//     }
+// }
+
+// //thunks
+// export const fetchProsAndCons = (userId, houseId) => {
+//     const stringId = houseId.toString()
+//     return async dispatch => {
+//         let prosAndConsArr = []
+//         const pandcs = await firebase
+//             .firestore()
+//             .collection('users')
+//             .doc(userId)
+//             .collection('houses')
+//             .doc()
+//             .get()
+//         houses.docs.forEach(doc => {
+//             housesArr.push(doc.data())
+//         })
+//         dispatch(allHouses(housesArr))
+//     }
+// }
+
+// export default function (state = initialState, action) {
+//     switch (action.type) {
+//         case GET_PROS:
+//             return action.pros
+//         case GET_CONS:
+//             return action.cons
+//         case ADD_PRO:
+//             return [...state.pros, action.pro]
+//         case ADD_CON:
+//             return [...state.cons, action.con]
+//         case DELETE_PRO:
+//             return state.filter(pro => pro.id !== pro.id)
+//         case DELETE_CON:
+//             return state.filter(con => con.id !== con.id)
+//         default:
+//             return state
+//     }
+// }
