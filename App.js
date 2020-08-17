@@ -12,6 +12,7 @@ import UpdateHouse from './src/screens/UpdateHouse'
 import { Provider } from 'react-redux'
 import store from './src/store/createStore'
 import { firebase } from './src/firebase/config'
+import ProsConsForm from './src/screens/ProsConsForm';
 
 
 const Stack = createStackNavigator()
@@ -86,6 +87,11 @@ export default function App() {
             name='UpdateHouse'
             component={UpdateHouse}
             options={{ title: 'Update House' }}
+          />
+          <Stack.Screen
+            name='ProsConsForm'
+            component={ProsConsForm}
+            options={{ title: 'Add Pros and Cons' }}
           />
         </Stack.Navigator>
       </NavigationContainer>
